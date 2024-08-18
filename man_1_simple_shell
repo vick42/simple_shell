@@ -1,0 +1,97 @@
+.TH HSH 1 2019-11-25 Linux "Linux Programmer's Manual"
+.SH NAME
+.B hsh 
+- simple shell
+.SH SYNOPSIS
+.PP
+.B hsh
+.SH DESCRIPTION
+.PP
+hsh is a command interpreter modeled after early Unix shells, such as the Thompson, Korn or C shells. It allows a user to interface with the kernel by entering commands into their terminal. Running in interactive mode, hsh first prompts the user to submit a command line. It then parses this input for a valid command and executes it accordingly. Users may also pipe the output of external programs into the hsh shell, causing it to run in non-interactive mode. In this mode, the shell does not solicit user input and will automatically exit upon execution of the commands received. The hsh shell features the 
+.B exit
+,
+.B env
+, and 
+.B cd
+builtin commands.
+.PP
+.PP
+
+.PP
+.SH BUILT-INS
+.PP
+.B exit
+- Terminates the current shell session. 
+.B exit
+allows the user to designate an exit status by passing it as an argument to the command. This status must be a number between 
+.B 0 
+and 
+.B INT_MAX.
+.PP
+.B env
+- Prints the current environment to the terminal
+.PP
+.B cd
+- Changes the current working directory. The user may specify the target directory by passing it as an argument to cd or by passing one of the following pre-defined arguments:  
+.B .
+, 
+.B ..
+,  
+.B ~
+, 
+.B -
+, and 
+.B ~[username].
+.PP
+.SH EXIT STATUS
+.PP
+When terminating the hsh shell in a prescribed manner ( 
+.B exit
+built-in or 
+.B EOF
+), the exit status will be set to
+.B EXIT_SUCCESS.
+The user may designate a specific exit status by passing it as an argument to the 
+.B exit
+built-in. In this case, the exit status will be set to this argument. However, if the number specified by the user is out of range (
+.B 0
+to
+.B INT_MAX
+) , hsh will set the exit status to  
+.B EXIT_FAILURE.
+.SH EXAMPLE
+.PP
+.B INTERACTIVE
+.BR MODE
+.PP
+bash$ ./hsh
+.PP
+hsh$ ls
+.PP
+a.out file0 file1 test.txt
+.PP
+hsh$
+.PP
+hsh$ exit
+.PP
+bash$ echo $?
+.PP
+0
+.PP
+bash$
+.PP
+
+.BR NON-INTERACTIVE
+.B MODE
+.PP
+bash$ echo "ls" | ./hsh
+.PP
+a.out file0 file1 test.txt
+.PP
+bash$
+
+.SH SEE ALSO
+.B sh(1), bash(1)
+.PP
+.SH AUTHORS
+Victor Mwiti
